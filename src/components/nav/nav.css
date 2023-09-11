@@ -1,0 +1,18 @@
+#nav {
+  width: 100%;
+  color: white;
+  font-weight: bolder;
+  display: flex;
+  justify-content: space-between;
+  padding: 2em;
+}
+
+.logo {
+  font-size: 1.2em;
+  line-height: 0.9;
+  box-shadow: -7px -7px white;
+  padding: 0.5em;
+  border: 1px solid white;
+  border-top-left-radius: 5px;
+  cursor: pointer;
+}
