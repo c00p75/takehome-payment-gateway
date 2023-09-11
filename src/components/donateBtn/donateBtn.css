@@ -1,0 +1,60 @@
+.donate-btn {
+  position: fixed;
+  height: 4em;
+  bottom: 2em;
+  right: 1em;
+}
+
+.donate-btn button {
+  height: 100%;
+  background: gold;
+  cursor: pointer;
+  border: none;
+  color: black;
+  border-radius: 5px;
+  -webkit-animation: pulse 2s infinite;
+  animation: pulse512 1.5s infinite;
+ }
+ 
+ @keyframes pulse512 {
+  0% {
+    box-shadow: 0 0 0 0 goldenrod;
+  }
+ 
+  70% {
+    box-shadow: 0 0 0 10px rgb(218 103 68 / 0%);
+  }
+ 
+  100% {
+    box-shadow: 0 0 0 0 rgb(218 103 68 / 0%);
+  }
+ }
+
+.donate-btn button:hover {
+  /* transform: translateY(-3px); */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  -webkit-animation: pulse 0s;
+  animation: pulse512 0s;
+}
+  
+.donate-btn button::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all .4s;
+}
+ 
+.donate-btn button::after {
+  background-color: gold;
+  border-radius: 5px;
+}
+ 
+.donate-btn button:hover::after {
+  transform: scaleX(1.4) scaleY(1.6);
+  opacity: 0;
+}
