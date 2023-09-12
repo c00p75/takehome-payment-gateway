@@ -80,4 +80,4 @@ Mission.propTypes = {
 };
 
 
-export default Mission
+export default Mission;

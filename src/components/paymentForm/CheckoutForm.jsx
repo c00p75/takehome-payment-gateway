@@ -52,7 +52,6 @@ const CheckoutForm = ({
 
 CheckoutForm.propTypes = {
   activeSection: PropTypes.number.isRequired,
-  visaLogo: PropTypes.string.isRequired,
   airtelLogo: PropTypes.string.isRequired,
   mtnLogo: PropTypes.string.isRequired,
   zamtelLogo: PropTypes.string.isRequired,
@@ -62,7 +61,10 @@ CheckoutForm.propTypes = {
   wallet: PropTypes.string.isRequired,
   setWallet: PropTypes.func.isRequired,
   currency: PropTypes.string.isRequired,
-  localAmount: PropTypes.number.isRequired,
+  localAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };
 
