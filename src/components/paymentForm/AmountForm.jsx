@@ -13,7 +13,7 @@ const AmountForm = ({
   country,
   setCountry,
   currency,
-  setCurrency,  
+  setCurrency, 
 }) => {
   const [usdExchangeRate, setUsdExchangeRate] = useState(1);
 
