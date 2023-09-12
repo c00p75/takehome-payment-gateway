@@ -1,7 +1,5 @@
 import { PropTypes } from 'prop-types';
 
-
-
 const PaymentMethod = ({
   activeSection,
   setActiveSection,
