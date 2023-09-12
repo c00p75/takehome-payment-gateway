@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { PropTypes } from 'prop-types';
 import CountryDropdown from "./CountryDropdown";
-import { fetchCurrencyData } from "../../modules/currencyConversion";
+import fetchCurrencyData from "../../modules/currencyConversion";
 
 const AmountForm = ({
   activeSection,
@@ -58,9 +58,12 @@ const AmountForm = ({
 AmountForm.propTypes = {
   activeSection: PropTypes.number.isRequired,
   setActiveSection: PropTypes.func.isRequired,
-  usdAmount: PropTypes.number.isRequired,
+  usdAmount: PropTypes.string.isRequired,
   setUsdAmount: PropTypes.func.isRequired,
-  localAmount: PropTypes.number.isRequired,
+  localAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   setLocalAmount: PropTypes.func.isRequired,
   country: PropTypes.string.isRequired,
   setCountry: PropTypes.func.isRequired,
