@@ -18,4 +18,4 @@ const fetchCurrencyData = async (country) => {
   return {countryCurrency, currencyToUsdRate};
 }
 
-export { fetchCurrencyData };
+export default fetchCurrencyData;
