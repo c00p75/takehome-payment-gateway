@@ -1,0 +1,57 @@
+.metrics-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin: 2em 0;
+}
+
+.metrics-card {
+  z-index: 0;
+  color: black;
+  font-size: 2em;
+  font-weight: bolder;
+  flex-direction: column;
+  padding: 1em;
+  min-width: 9em;
+  height: 9em;
+  transition: box-shadow .3s ease, transform .2s ease;
+}
+
+.metrics-card > span:nth-child(2) {
+  border-bottom: 3px solid firebrick;
+}
+ 
+.metrics-card a {
+  transform: translateY(200%);
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  opacity: 0;
+  transition: transform .2s ease, opacity .2s ease;
+  color: white;
+}
+ 
+ 
+.metrics-card:hover {
+  box-shadow: 0 8px 40px #232323cc;
+  background: firebrick;
+  color: white;
+}
+
+.metrics-card:hover > span:nth-child(2) {
+  border-bottom: none;
+}
+ 
+.metrics-card:hover {
+  transform: translateY(-5%);
+}
+ 
+.metrics-card:hover a {
+  transform: translateY(100%);
+  opacity: 1;
+}
+ 
+.metrics-card a:hover {
+  text-decoration: underline;
+  color: lavender;
+}

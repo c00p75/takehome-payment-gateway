@@ -1,5 +1,5 @@
-import bg from '../assets/images/school_children.jpg';
-import Nav from './Nav';
+import bg from '../../assets/images/school_children.jpg';
+import Nav from '../nav/Nav';
 import './banner.css';
 
 const Banner = () => {
