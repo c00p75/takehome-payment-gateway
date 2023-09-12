@@ -1,0 +1,141 @@
+.mission {
+  padding: 2em;
+}
+
+.mission h2 {
+  font-size: 2em;
+}
+
+.mission:first-child {
+  background-color: whitesmoke;
+  padding: 3em 2em;
+  height: 95vh;
+}
+
+.mission-info-1,
+.mission-img {
+  flex: 1;
+}
+
+.mission-info-1,
+.mission-info-1 > div {
+  flex-direction: column;
+}
+
+.mission-info-1 > div p {
+  margin: 1em 0;
+}
+
+.mission-img img {
+  margin-left: 2em;
+  width: 100%;
+}
+
+.mission-info-2 {
+  margin: 3em 0;
+  flex-direction: column;
+  overflow: auto;
+  width: 94vw;
+}
+
+.mission-info-2 h2 {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.mission-card-container {
+  margin: 1em 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 5px;
+  padding: 3em;
+  flex-wrap: wrap-reverse;
+}
+
+.mission-card {
+  position: relative;
+  width: 100%;
+  height: 254px;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 2px;
+  transition: all .5s;
+  background: darkslategray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
+  margin: 0 0.3em;
+  min-width: 10em;
+}
+
+.mission-card strong {
+  position: absolute;
+  padding: .5em;
+  text-align: center;
+  transition: all .5s;
+  text-transform: uppercase;
+  color: white;
+  letter-spacing: .1em;
+}
+
+.mission-card span{
+  opacity: 1;
+  transform: translateX(200%);
+  color: white;
+  transition: all .3s ease-in-out;
+}
+
+.mission-card:hover {
+  flex: 4;
+  width: fit-content;
+  min-height: fit-content;
+}
+
+.mission-card:hover strong {
+  position: relative;
+  text-align: left;
+}
+
+.mission-card:hover span {
+  transform: translateX(0);
+}
+
+.mission-card-container:hover > .mission-card:not(:hover) {
+  filter: brightness(0.4) blur(1px);
+  transform: scale(0.7, 0.7);
+  opacity: 0.9;
+  margin: 0 -1em;
+}
+
+.mission-card .donate-btn {
+  position: static;
+  justify-content: flex-start;
+  width: fit-content;
+  -webkit-animation: pulse 0s infinite;
+  animation: pulse512 0s infinite;
+  height: auto;
+  width: auto;
+}
+
+.mission-card .donate-btn button {
+  -webkit-animation: pulse 0s;
+  animation: pulse512 0s;
+  background: none;
+  color: white;
+  border: none;
+  border-radius: 0;
+  font-weight: bolder;
+  padding: 0;
+  padding-top: 1em;
+}
+
+.mission-card .donate-btn button::after {
+  background: none;
+}
+
+.mission-card .donate-btn button:hover {
+  box-shadow: 0 2px 0 0 white;
+}
