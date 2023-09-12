@@ -1,6 +1,8 @@
 import { useState } from "react"
+import './index.css'
 import Banner from "./components/banner/Banner"
 import DonateBtn from "./components/donateBtn/DonateBtn"
+import Metrics from "./components/metrics/Metrics"
 
 const App = () => {
   const [showPaymentForm, setShowForm] = useState(false);
@@ -15,6 +17,7 @@ const App = () => {
     <div id="app">
       <Banner />
       <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+      <Metrics />
     </div>
   )
 }
