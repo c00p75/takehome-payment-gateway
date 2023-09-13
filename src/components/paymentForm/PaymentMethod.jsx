@@ -13,6 +13,7 @@ const PaymentMethod = ({
     <form
       className={`form-section slide-right-to-left ${activeSection == 3 ? "active" : ""} ${activeSection > 3 ? "slide-left-to-right" : ""}`}
       onSubmit={(e) => e.preventDefault()}
+      id="payment-method-form"
     >
       <div className="payment-option">
         <span className="payment-info flex-center">SELECT PAYMENT METHOD</span>

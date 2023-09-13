@@ -35,7 +35,7 @@ const AmountForm = ({
     <form
       className={`form-section currency-form form-section-2 slide-right-to-left flex-center-col ${activeSection == 2 ? "active" : ""} ${activeSection > 2 ? "slide-left-to-right" : ""}`}
       onSubmit={(e) => e.preventDefault()}
-    >
+      id="amount-form"    >
       <div>
         <div className="payment-option">
           <span className="payment-info">Enter Amount ($)</span>

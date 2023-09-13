@@ -68,7 +68,15 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
     }
   }
 
-
+  // Prevent changing active form section by pressing tab
+  document.querySelectorAll('.form-section button').forEach((btn) => {
+    btn.addEventListener('focus', () => {
+      btn.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') { event.preventDefault(); }    // prevent default tab behavior
+      })
+    });
+  })
+  
   return (
     <div className={`form-container flex-center ${showPaymentForm ? '' : 'non-visible'}`}>
       <div className="payment-form">
