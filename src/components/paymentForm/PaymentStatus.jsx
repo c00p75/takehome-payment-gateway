@@ -12,6 +12,7 @@ const PaymentStatus = ({activeSection, paymentStatus}) => {
         {paymentStatus === "successful" && ("Transaction Successful!")}
         {paymentStatus === "failed" && ("Transaction Failed!")}
       </div>
+      {paymentStatus === "failed" && (<p>Error Message</p>)}
     </div>
   )
 }
