@@ -1,6 +1,6 @@
 import { PropTypes } from 'prop-types';
 
-const PaymentStatus = ({activeSection, paymentStatus}) => {
+const PaymentStatus = ({activeSection, paymentStatus, paymentStatusError}) => {
   return (
     <div className={`form-section payment-status flex-center-col slide-right-to-left ${activeSection == 5 ? "active" : ""} `}>
       <div className="flex-center">
@@ -12,7 +12,7 @@ const PaymentStatus = ({activeSection, paymentStatus}) => {
         {paymentStatus === "successful" && ("Transaction Successful!")}
         {paymentStatus === "failed" && ("Transaction Failed!")}
       </div>
-      {paymentStatus === "failed" && (<p>Error Message</p>)}
+      {paymentStatus === "failed" && (<p>{paymentStatusError}</p>)}
     </div>
   )
 }
@@ -20,7 +20,7 @@ const PaymentStatus = ({activeSection, paymentStatus}) => {
 PaymentStatus.propTypes = {
   activeSection: PropTypes.number.isRequired,
   paymentStatus: PropTypes.string.isRequired,
-  
+  paymentStatusError: PropTypes.string.isRequired,  
 };
 
 

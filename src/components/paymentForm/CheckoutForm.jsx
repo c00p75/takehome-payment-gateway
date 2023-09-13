@@ -35,9 +35,9 @@ const CheckoutForm = ({
           </span>
           <div>
             <span className="payment-info">Enter number</span>
-            <div className="payment-option-input">
-              <span>(+260)</span>
-              <input required type="text" onChange={(e) => setWallet(e.target.value)} value={wallet} name="wallet number"placeholder={paymentmode === "airtel" ? "974549983" : (paymentmode === "mtn" ? "966072500" : "955966226")}/>
+            <div className="payment-option-input" style={{padding:"0"}}>
+              <span style={{paddingLeft: "0.5em"}}>(+260)</span>
+              <input required type="text" maxLength="9" onChange={(e) => setWallet(e.target.value)} value={wallet} name="wallet number"placeholder={paymentmode === "airtel" ? "974549983" : (paymentmode === "mtn" ? "966072500" : "955966226")} style={{padding: "1rem 0.4rem"}} />
             </div>
             
             <span className="payment-info">Amount</span>

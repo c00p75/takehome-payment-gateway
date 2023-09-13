@@ -16,11 +16,14 @@ const AmountForm = ({
   setCurrency, 
 }) => {
   const [usdExchangeRate, setUsdExchangeRate] = useState(1);
+  const [fetchCurrencyState, setFetchCurrencyState] = useState(false);
 
 
   // fetching currency data from api and assigning the returned value to appropriate variables
   const countryCurrency = async(country) => {
-    const { countryCurrency, currencyToUsdRate } = await fetchCurrencyData(country);
+    setFetchCurrencyState("pending");
+    const { countryCurrency, currencyToUsdRate, status } = await fetchCurrencyData(country);
+    setFetchCurrencyState(status);                // set fetch currency call status
     setCurrency(countryCurrency);                 // Set local currency name
     setUsdExchangeRate(currencyToUsdRate);        // Set usd to local currency echange rate
     setCountry(country);                          // Set selected country
@@ -43,7 +46,15 @@ const AmountForm = ({
             <span className="payment-info">Local Currency</span>
             (<CountryDropdown countryCurrency={countryCurrency} country={country} />)
           </div>
-          <input required type="text" value={localAmount ? `(${currency}) ${localAmount.toFixed(2).toLocaleString('en-us')}` : ""} name="currency" disabled placeholder={currency} />
+          <input 
+            required
+            type="text"
+            value={ localAmount && fetchCurrencyState == true ? `(${currency}) ${localAmount.toFixed(2).toLocaleString('en-us')}` : "" }
+            name="amount" 
+            disabled
+            placeholder={fetchCurrencyState == "pending" ? "converting.." : currency}
+            style={{cursor: "not-allowed"}}
+          />
         </div>
       </div>
 
