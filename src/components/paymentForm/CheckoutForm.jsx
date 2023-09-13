@@ -25,6 +25,7 @@ const CheckoutForm = ({
     <form
       className={`form-section slide-right-to-left ${activeSection == 4 ? "active" : ""} ${activeSection == 5 ? "slide-left-to-right" : ""}`}
       onSubmit={(e) => handleSubmit(e)}
+      id='checkout-form'
     >
       {(paymentmode == "airtel" || paymentmode == "mtn" || paymentmode == "zamtel") && (
         <div className="payment-option">
