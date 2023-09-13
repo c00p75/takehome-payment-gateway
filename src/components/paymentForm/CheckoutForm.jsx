@@ -13,8 +13,14 @@ const CheckoutForm = ({
   currency,
   localAmount,
   handleSubmit,
+  cardNumber,
+  setCardNumber,
+  cardCVC,
+  setCardCVC,
+  expirationDate,
+  setExpirationDate,
+  visaLogo,
 }) => {
-  
   return (
     <form
       className={`form-section slide-right-to-left ${activeSection == 4 ? "active" : ""} ${activeSection == 5 ? "slide-left-to-right" : ""}`}
@@ -42,6 +48,31 @@ const CheckoutForm = ({
           </div>
         </div>
       )}
+
+      {paymentmode == "visa" && (
+        <div className="payment-option">
+          <span className="flex-center slected-paymaent-logo">
+            <img src={visaLogo} alt="airtel money" className="mobile-money-icon mtn"/>
+          </span>
+          <div>
+            
+            <div className="card-number-container">
+              <div className="card-number">
+                <span className="payment-info">Card number</span>
+                <input required type="text" onChange={(e) => setCardNumber(e.target.value)} value={cardNumber} name="card number" placeholder="7419 9412 5910 9218" />
+              </div>
+              <div className="card-number">
+                <span className="payment-info">CVC</span>
+                <input required type="text" onChange={(e) => setCardCVC(e.target.value)} value={cardCVC} name="cvc" placeholder="253" />
+              </div>
+            </div>
+            <span className="payment-info">Expiration Date</span>
+            <input required type="date" onChange={(e) => setExpirationDate(e.target.value)} value={expirationDate} name="expiration date" />
+            <span className="payment-info">Amount</span>
+            <input required type="text" value={`(${currency}) ${localAmount.toFixed(2)}`} name="amount" disabled placeholder="Reference" />
+          </div>
+        </div>
+      )}
       
       <div className="form-btn-container">
         <button type="submit" className="choose-btn-2">Pay Now</button>
@@ -66,6 +97,13 @@ CheckoutForm.propTypes = {
     PropTypes.number,
   ]).isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  cardNumber: PropTypes.string.isRequired,
+  setCardNumber: PropTypes.func.isRequired,
+  cardCVC: PropTypes.string.isRequired,
+  setCardCVC: PropTypes.func.isRequired,
+  expirationDate: PropTypes.string.isRequired,
+  setExpirationDate: PropTypes.func.isRequired,
+  visaLogo: PropTypes.string.isRequired,
 };
 
 export default CheckoutForm;

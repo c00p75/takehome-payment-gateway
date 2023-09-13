@@ -17,11 +17,14 @@ const AmountForm = ({
 }) => {
   const [usdExchangeRate, setUsdExchangeRate] = useState(1);
 
+
+  // fetching currency data from api and assigning the returned value to appropriate variables
   const countryCurrency = async(country) => {
     const { countryCurrency, currencyToUsdRate } = await fetchCurrencyData(country);
-    setCurrency(countryCurrency);
-    setUsdExchangeRate(currencyToUsdRate);
-    setCountry(country);
+    setCurrency(countryCurrency);                 // Set local currency name
+    setUsdExchangeRate(currencyToUsdRate);        // Set usd to local currency echange rate
+    setCountry(country);                          // Set selected country
+    // Compute local currency based on exchange rate.
     if (usdAmount) { setLocalAmount(parseFloat(usdAmount) * currencyToUsdRate.toLocaleString('en-US'))}
   }
 
