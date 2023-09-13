@@ -24,7 +24,8 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
   const [paymentmode, setPaymentmode] = useState("");
   const [wallet, setWallet] = useState("");
   const [reference, setReference] = useState("Donation");
-  const [paymentStatus, setPaymentStatus] = useState("failed");
+  const [paymentStatus, setPaymentStatus] = useState("");
+  const [paymentStatusError, setPaymentStatusError] = useState("");
   const [cardNumber, setCardNumber] = useState("");
   const [cardCVC, setCardCVC] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
@@ -56,10 +57,11 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
 
       if (response.ok) {    // Check the response status
         console.log('Data was successfully submitted.');  // Data was successfully sent.
-        setPaymentStatus("successful")
+        setPaymentStatus("successful");
       } else {
         console.error('Error submitting data:', response.statusText);  // Handle the error response
-        setPaymentStatus("successful")
+        setPaymentStatusError(response.statusText);
+        setPaymentStatus("failed");
       }
     } catch (error) {
       console.error('An error occurred:', error);  // Handle other errors here
@@ -127,7 +129,12 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
             visaLogo={visaLogo}
           />
           
-          <PaymentStatus activeSection={activeSection} paymentStatus={paymentStatus} setPaymentStatus={setPaymentStatus} />
+          <PaymentStatus
+            activeSection={activeSection}
+            paymentStatus={paymentStatus}
+            setPaymentStatus={setPaymentStatus}
+            paymentStatusError={paymentStatusError}
+          />
         </div>
 
         <button type="button" className="close-form-btn" onClick={() => setShowPaymentForm(false)}>
