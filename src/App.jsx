@@ -10,6 +10,8 @@ import PaymentForm from "./components/paymentForm/PaymentForm";
 
 const App = () => {
   const [showPaymentForm, setShowForm] = useState(false);
+
+  // Disable body scroll when form popup is open
   const body = document.querySelector('body');
   useEffect(() => {
     if (showPaymentForm) { body.style.overflow = 'hidden';}
