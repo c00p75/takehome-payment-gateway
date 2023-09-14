@@ -27,9 +27,9 @@ const app = express();
 
 // Use the cors middleware 
 app.use(cors({
-  origin: 'http://localhost:3000',  // Specify the allowed origin for your frontend
-  methods: '*',                     // allowed HTTP methods
-  allowedHeaders: '*',              // allowed headers
+  origin: 'http://localhost:3000',                   // Specify the allowed origin for your frontend
+  methods: '*',                                      // allowed HTTP methods
+  allowedHeaders: '*',                               // allowed headers
 }));
 
 // Make url data more readable
@@ -39,6 +39,12 @@ app.use(express.json());
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 })
+
+// Retrive paypal client id
+app.get('/paypal-id', (req, res) => {
+  const payPalId = process.env.PAYPAL_CLIENT_ID;
+  res.json({ payPalId });
+});
 
 // Check sparco payment status
 const sparcoPaymentStatus = (requestRef, encoded_payload) => {
@@ -64,25 +70,25 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
               console.log(resolve(response.status))
               clearInterval(interval);
               clearTimeout(timer);
-              resolve(response.status); // Resolve the promise with the final status
+              resolve(response.status);         // Resolve the promise with the final status
               break;
             case "TXN_FAILED":
               console.log(resolve(response.status))
               clearInterval(interval);
               clearTimeout(timer);
-              resolve(response.status); // Resolve the promise with the final status
+              resolve(response.status);         // Resolve the promise with the final status
               break;
             case "TXN_SUCCESSFUL":
               clearInterval(interval);
               clearTimeout(timer);
-              resolve("SUCCESS"); // Resolve the promise with the final status
+              resolve("SUCCESS");               // Resolve the promise with the final status
               break;
             default:
               break;
           }
         } else {
           // Handle non-successful response
-          resolve(paymentStatus.status); // Resolve the promise with the final status
+          resolve(paymentStatus.status);       // Resolve the promise with the final status
           clearInterval(interval);
           clearTimeout(timer);
         }
@@ -90,7 +96,7 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
         console.log('error posting to sparco', error);
         clearInterval(interval);
         clearTimeout(timer);
-        resolve("FAILED"); // Resolve the promise with the final status
+        resolve("FAILED");                    // Resolve the promise with the final status
       }
     }, 2000);
   });
@@ -98,7 +104,20 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
 
 // Handle post request from front end
 app.post(baseUrl, async (req, res) => {
-  const data = req.body;    // Decoding encrypted data from the front-end
+  const data = req.body;                      // Decoding encrypted data from the front-end
+  
+  // Create simple database
+  const addUserToDataBase = () => {
+    if (!fs.existsSync('./database')){        // Check if /database does not exit
+      fs.mkdir('./database', (err) => {       // Create directory
+        if(err){ console.log(err) }           // Check if there is an error
+      })
+    }
+    fs.writeFile('./database/donors.txt', `\nNAME: ${data.first} ${data.lastName} EMAIL: ${data.email} AMOUNT: $${data.usdAmount}\n`, { flag: 'a' }, (err) => {
+      if (err) { console.error('Error appending data to the file:', err);
+      } else { console.log('Record Saved')}
+    });
+  }
 
   // Handle Mobile Money payement request
   if (data.paymentmode !== 'visa' && SPARCO_PUB_KEY && SPARCO_SEC_KEY) {
@@ -132,30 +151,14 @@ app.post(baseUrl, async (req, res) => {
       });
 
       if (sparcoPaymentRequest.ok) {
-        const response = await sparcoPaymentRequest.json();               // Parse the response data as JSON
+        const response = await sparcoPaymentRequest.json();                                   // Parse the response data as JSON
         const sparcoSatus = await sparcoPaymentStatus(response.reference, encoded_payload);   // Passing reference to check payment status
         if (sparcoSatus == "SUCCESS") {
-          // Create simple database
-          if (!fs.existsSync('./database')){        // Check if /database does not exit
-            fs.mkdir('./database', (err) => {       // Create directory
-              if(err){ console.log(err) }           // Check if there is an error
-            })
-          }
-
-          fs.writeFile('./database/donors.txt', `\nNAME: ${data.first} ${data.lastName} EMAIL: ${data.email} AMOUNT: $${data.usdAmount}\n`, { flag: 'a' }, (err) => {
-            if (err) {
-              console.error('Error appending data to the file:', err);
-            } else {
-              console.log('Record Saved')
-            }
-          })
-
-          // Send a successful response.
-          res.status(200).send('successful');
+          addUserToDataBase()                                      // Include name and amout to database
+          res.status(200).send('successful');                      // Send a successful response.
         } else {
           console.log("Sparco fail: ", sparcoSatus)
-          // Send a unsuccessful response.
-          res.status(500).send(sparcoSatus);                       // Return error status to frontend
+          res.status(500).send(sparcoSatus);                       // Send a unsuccessful response.
         }
       } else {
         // Handle non-successful response
@@ -163,7 +166,13 @@ app.post(baseUrl, async (req, res) => {
       }
     } catch(error) {
       console.log('error posting to sparco', error);
-      res.status(500).send('Internal Server Error');                       // Return error status to frontend
+      res.status(500).send('Internal Server Error');                  // Return error status to frontend
+    }
+  } else if (data.paymentmode === 'visa'){                            // Handle paypal payment status
+    if(data.payPalStatus == true){
+      addUserToDataBase()                                             // Include name and amout to database
+    } else {
+      res.status(500).send('Internal Server Error');
     }
   }
 })
