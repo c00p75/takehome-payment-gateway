@@ -55,3 +55,9 @@
   text-decoration: underline;
   color: lavender;
 }
+
+@media (max-width: 768px) {
+  .metrics-container {
+    flex-direction: column;
+  }
+}

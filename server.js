@@ -13,9 +13,11 @@ import fetch from 'node-fetch';
 dotenv.config();
 const SPARCO_PUB_KEY =  process.env.SPARCO_PUB_KEY;
 const SPARCO_SEC_KEY =  process.env.SPARCO_SEC_KEY;
+const payPalId = process.env.PAYPAL_CLIENT_ID;
 
 if (!SPARCO_PUB_KEY) { console.log('Sparco Public Key missing') }
 if (!SPARCO_SEC_KEY) { console.log('Sparco Secrete Key missing') }
+if (!payPalId) { console.log('Paypal client ID missing') }
 
 // Declare port variable
 const port = 3001
@@ -42,7 +44,6 @@ app.listen(port, () => {
 
 // Retrive paypal client id
 app.get(`${baseUrl}/paypal-id`, (req, res) => {
-  const payPalId = process.env.PAYPAL_CLIENT_ID;
   res.json({ payPalId });
 });
 
@@ -53,8 +54,9 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
     // Return failed status if payment is still pending after 2 minutes
     const timer = setTimeout(() => {
       console.log("Sparco payment request timed out")
+      clearInterval(interval);
       resolve('FAILED');
-    }, 120000);
+    }, 60000);
 
     // Set interval to repeatedly check payment status
     let interval = setInterval(async () => {
@@ -104,6 +106,10 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
 
 // Handle post request from front end
 app.post(baseUrl, async (req, res) => {
+  if (!SPARCO_PUB_KEY || !SPARCO_SEC_KEY || !payPalId) {
+    res.status(500).send('Internal Server Error(missing server side credentials)');
+  }
+
   const data = req.body;                      // Decoding encrypted data from the front-end
   
   // Create simple database
