@@ -1,4 +1,5 @@
 import { PropTypes } from 'prop-types';
+import PayPalCheckoutBtn from './PayPalCheckoutBtn';
 
 const CheckoutForm = ({
   activeSection,
@@ -50,7 +51,7 @@ const CheckoutForm = ({
         </div>
       )}
 
-      {paymentmode == "visa" && (
+      {/* {paymentmode == "visa" && (
         <div className="payment-option">
           <span className="flex-center slected-paymaent-logo">
             <img src={visaLogo} alt="airtel money" className="mobile-money-icon mtn"/>
@@ -71,6 +72,17 @@ const CheckoutForm = ({
             <input required type="date" onChange={(e) => setExpirationDate(e.target.value)} value={expirationDate} name="expiration date" />
             <span className="payment-info">Amount</span>
             <input required type="text" value={`(${currency}) ${localAmount.toFixed(2)}`} name="amount" disabled placeholder="Reference" />
+          </div>
+        </div>
+      )} */}
+
+      {paymentmode == "visa" && (
+        <div className="payment-option">
+          <span className="flex-center slected-paymaent-logo">
+            <img src={visaLogo} alt="airtel money" className="mobile-money-icon mtn"/>
+          </span>
+          <div className="paypal-btn-container">
+            <PayPalCheckoutBtn />
           </div>
         </div>
       )}
