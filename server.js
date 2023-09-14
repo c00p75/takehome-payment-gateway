@@ -41,7 +41,7 @@ app.listen(port, () => {
 })
 
 // Retrive paypal client id
-app.get('/paypal-id', (req, res) => {
+app.get(`${baseUrl}/paypal-id`, (req, res) => {
   const payPalId = process.env.PAYPAL_CLIENT_ID;
   res.json({ payPalId });
 });

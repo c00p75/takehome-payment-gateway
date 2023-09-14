@@ -8,7 +8,23 @@ const PaymentMethod = ({
   airtelLogo,
   mtnLogo,
   zamtelLogo,
+  setPayPalId,
+  setPaymentStatus,
 }) => {
+  const retrievePaypalId = async () => {
+    setPaymentmode("visa");
+    setPaymentStatus('pending');
+    await fetch('http://localhost:3001/api/v1/payment/paypal-id')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data, data["payPalId"])
+        setPayPalId(data["payPalId"])
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+      setPaymentStatus('');
+  };
   return (
     <form
       className={`form-section slide-right-to-left ${activeSection == 3 ? "active" : ""} ${activeSection > 3 ? "slide-left-to-right" : ""}`}
@@ -21,7 +37,7 @@ const PaymentMethod = ({
           <div className="flex-center-col payment-method">
             <div className="main visa-card-main">
               <div className="card">
-                <button onClick={() => {setPaymentmode("visa"); setActiveSection(activeSection + 1)}} type="button" className="visa-btn">
+                <button onClick={() => {retrievePaypalId(); setActiveSection(activeSection + 1)}} type="button" className="visa-btn">
                   <img src={visaLogo} alt="Visa" className="mobile-money-icon visa" />
                 </button>
               </div>
@@ -57,7 +73,10 @@ PaymentMethod.propTypes = {
   visaLogo: PropTypes.string.isRequired,
   airtelLogo: PropTypes.string.isRequired,
   mtnLogo: PropTypes.string.isRequired,
-  zamtelLogo: PropTypes.string.isRequired, 
+  zamtelLogo: PropTypes.string.isRequired,
+  setPayPalId: PropTypes.func.isRequired,
+  setPaymentStatus: PropTypes.func.isRequired,
+  
 };
 
 export default PaymentMethod;

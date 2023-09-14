@@ -26,6 +26,7 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
   const [reference, setReference] = useState("Donation");
   const [paymentStatus, setPaymentStatus] = useState("");
   const [payPalStatus, setPayPalStatus] = useState(false);
+  const [payPalId, setPayPalId] = useState("");
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const baseUrl =  "http://localhost:3001/api/v1/payment";
 
@@ -113,6 +114,8 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
             airtelLogo={airtelLogo}
             mtnLogo={mtnLogo}
             zamtelLogo={zamtelLogo}
+            setPayPalId={setPayPalId}
+            setPaymentStatus={setPaymentStatus}
           />
           
           <CheckoutForm
@@ -131,6 +134,7 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
             handleSubmit={handleSubmit}
             visaLogo={visaLogo}
             setPayPalStatus={setPayPalStatus}
+            payPalId={payPalId}
           />
           
           <PaymentStatus

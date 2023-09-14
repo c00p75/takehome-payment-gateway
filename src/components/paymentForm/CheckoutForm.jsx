@@ -17,6 +17,7 @@ const CheckoutForm = ({
   handleSubmit,
   visaLogo,
   setPayPalStatus,
+  payPalId,
 }) => {
   return (
     <form
@@ -53,7 +54,7 @@ const CheckoutForm = ({
             <img src={visaLogo} alt="airtel money" className="mobile-money-icon mtn"/>
           </span>
           <div className="paypal-btn-container">
-            <PayPalCheckoutBtn usdAmount={usdAmount} setPayPalStatus={setPayPalStatus} />
+            <PayPalCheckoutBtn usdAmount={usdAmount} setPayPalStatus={setPayPalStatus} payPalId={payPalId} />
           </div>
         </div>
       )}
@@ -87,6 +88,7 @@ CheckoutForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   visaLogo: PropTypes.string.isRequired,
   setPayPalStatus: PropTypes.func.isRequired,
+  payPalId: PropTypes.string.isRequired,
 };
 
 export default CheckoutForm;
