@@ -1,4 +1,5 @@
 import { PropTypes } from 'prop-types';
+import PayPalCheckoutBtn from './PayPalCheckoutBtn';
 
 const CheckoutForm = ({
   activeSection,
@@ -12,13 +13,17 @@ const CheckoutForm = ({
   setWallet,
   currency,
   localAmount,
+  usdAmount,
   handleSubmit,
+  visaLogo,
+  setPayPalStatus,
+  payPalId,
 }) => {
-  
   return (
     <form
       className={`form-section slide-right-to-left ${activeSection == 4 ? "active" : ""} ${activeSection == 5 ? "slide-left-to-right" : ""}`}
       onSubmit={(e) => handleSubmit(e)}
+      id='checkout-form'
     >
       {(paymentmode == "airtel" || paymentmode == "mtn" || paymentmode == "zamtel") && (
         <div className="payment-option">
@@ -29,9 +34,9 @@ const CheckoutForm = ({
           </span>
           <div>
             <span className="payment-info">Enter number</span>
-            <div className="payment-option-input">
-              <span>(+260)</span>
-              <input required type="text" onChange={(e) => setWallet(e.target.value)} value={wallet} name="wallet number"placeholder={paymentmode === "airtel" ? "974549983" : (paymentmode === "mtn" ? "966072500" : "955966226")}/>
+            <div className="payment-option-input" style={{padding:"0"}}>
+              <span style={{paddingLeft: "0.5em"}}>(+260)</span>
+              <input required type="text" maxLength="9" onChange={(e) => setWallet(e.target.value)} value={wallet} name="wallet number"placeholder={paymentmode === "airtel" ? "974549983" : (paymentmode === "mtn" ? "966072500" : "955966226")} style={{padding: "1rem 0.4rem"}} />
             </div>
             
             <span className="payment-info">Amount</span>
@@ -42,9 +47,20 @@ const CheckoutForm = ({
           </div>
         </div>
       )}
+
+      {paymentmode == "visa" && (
+        <div className="payment-option">
+          <span className="flex-center slected-paymaent-logo">
+            <img src={visaLogo} alt="airtel money" className="mobile-money-icon mtn"/>
+          </span>
+          <div className="paypal-btn-container">
+            <PayPalCheckoutBtn usdAmount={usdAmount} setPayPalStatus={setPayPalStatus} payPalId={payPalId} />
+          </div>
+        </div>
+      )}
       
       <div className="form-btn-container">
-        <button type="submit" className="choose-btn-2">Pay Now</button>
+        {paymentmode !== "visa" && (<button type="submit" className="choose-btn-2">Pay Now</button>)}
       </div>
     </form>
   );
@@ -65,7 +81,14 @@ CheckoutForm.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
+  usdAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  visaLogo: PropTypes.string.isRequired,
+  setPayPalStatus: PropTypes.func.isRequired,
+  payPalId: PropTypes.string.isRequired,
 };
 
 export default CheckoutForm;

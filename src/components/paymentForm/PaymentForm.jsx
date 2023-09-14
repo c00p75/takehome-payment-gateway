@@ -10,8 +10,14 @@ import PersonalDetailsForm from './PersonalDetailsForm';
 import AmountForm from './AmountForm';
 import PaymentMethod from './PaymentMethod';
 import CheckoutForm from './CheckoutForm';
+import PaymentStatus from './PaymentStatus';
 
-const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
+const PaymentForm = ({showPaymentForm, setShowForm}) => {
+  const handleFormClose = () => {
+    const confirmClose = window.confirm('Are you sure you want to close the form? \nAll data will be lost.');
+    if (confirmClose) { setShowForm(false); }
+  };
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -24,8 +30,11 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
   const [wallet, setWallet] = useState("");
   const [reference, setReference] = useState("Donation");
   const [paymentStatus, setPaymentStatus] = useState("");
+  const [payPalStatus, setPayPalStatus] = useState(false);
+  const [payPalId, setPayPalId] = useState("");
+  const [paymentStatusError, setPaymentStatusError] = useState("");
   const baseUrl =  "http://localhost:3001/api/v1/payment";
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPaymentStatus("pending");
@@ -41,6 +50,8 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
       currency,
       paymentmode,
       reference,
+      paymentStatus,
+      payPalStatus,
     };
 
     try {
@@ -52,17 +63,26 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
 
       if (response.ok) {    // Check the response status
         console.log('Data was successfully submitted.');  // Data was successfully sent.
-        setPaymentStatus("successful")
+        setPaymentStatus("successful");
       } else {
         console.error('Error submitting data:', response.statusText);  // Handle the error response
-        setPaymentStatus("successful")
+        setPaymentStatusError(response.statusText);
+        setPaymentStatus("failed");
       }
     } catch (error) {
       console.error('An error occurred:', error);  // Handle other errors here
     }
   }
 
-
+  // Prevent changing active form section by pressing tab
+  document.querySelectorAll('.form-section button').forEach((btn) => {
+    btn.addEventListener('focus', () => {
+      btn.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') { event.preventDefault(); }    // prevent default tab behavior
+      })
+    });
+  })
+  
   return (
     <div className={`form-container flex-center ${showPaymentForm ? '' : 'non-visible'}`}>
       <div className="payment-form">
@@ -99,6 +119,8 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
             airtelLogo={airtelLogo}
             mtnLogo={mtnLogo}
             zamtelLogo={zamtelLogo}
+            setPayPalId={setPayPalId}
+            setPaymentStatus={setPaymentStatus}
           />
           
           <CheckoutForm
@@ -112,25 +134,23 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
             wallet={wallet}
             setWallet={setWallet}
             currency={currency}
+            usdAmount={usdAmount}
             localAmount={localAmount}
             handleSubmit={handleSubmit}
+            visaLogo={visaLogo}
+            setPayPalStatus={setPayPalStatus}
+            payPalId={payPalId}
           />
           
-
-          <div className={`form-section payment-status flex-center-col slide-right-to-left ${activeSection == 5 ? "active" : ""} `}>
-            <div className="flex-center">
-              {paymentStatus == "successful" && (<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 20 20"><path fill="green" d="M10 20a10 10 0 0 1 0-20a10 10 0 1 1 0 20Zm-2-5l9-8.5L15.5 5L8 12L4.5 8.5L3 10l5 5Z"></path></svg>)}
-              {paymentStatus == "failed" && (<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24"><path fill="red" d="M12.884 2.532c-.346-.654-1.422-.654-1.768 0l-9 17A.999.999 0 0 0 3 21h18a.998.998 0 0 0 .883-1.467L12.884 2.532zM13 18h-2v-2h2v2zm-2-4V9h2l.001 5H11z"></path></svg>)}
-            </div>
-
-            <div className="payment-info flex-center">
-              {paymentStatus === "successful" && ("Transaction Successful!")}
-              {paymentStatus === "failed" && ("Transaction Failed!")}
-            </div>
-          </div>
+          <PaymentStatus
+            activeSection={activeSection}
+            paymentStatus={paymentStatus}
+            setPaymentStatus={setPaymentStatus}
+            paymentStatusError={paymentStatusError}
+          />
         </div>
 
-        <button type="button" className="close-form-btn" onClick={() => setShowPaymentForm(false)}>
+        <button type="button" className="close-form-btn" onClick={() => handleFormClose()}>
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32"><path fill="black" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2zm5.4 21L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4l-1.6 1.6z" /></svg>
         </button>
         {activeSection > 1 && (
@@ -149,7 +169,7 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
 
 PaymentForm.propTypes = {
   showPaymentForm: PropTypes.bool.isRequired,
-  setShowPaymentForm: PropTypes.func.isRequired,
+  setShowForm: PropTypes.func.isRequired,
 };
 
 export default PaymentForm;

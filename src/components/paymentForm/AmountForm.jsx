@@ -16,12 +16,18 @@ const AmountForm = ({
   setCurrency, 
 }) => {
   const [usdExchangeRate, setUsdExchangeRate] = useState(1);
+  const [fetchCurrencyState, setFetchCurrencyState] = useState(false);
 
+
+  // fetching currency data from api and assigning the returned value to appropriate variables
   const countryCurrency = async(country) => {
-    const { countryCurrency, currencyToUsdRate } = await fetchCurrencyData(country);
-    setCurrency(countryCurrency);
-    setUsdExchangeRate(currencyToUsdRate);
-    setCountry(country);
+    setFetchCurrencyState("pending");
+    const { countryCurrency, currencyToUsdRate, status } = await fetchCurrencyData(country);
+    setFetchCurrencyState(status);                // set fetch currency call status
+    setCurrency(countryCurrency);                 // Set local currency name
+    setUsdExchangeRate(currencyToUsdRate);        // Set usd to local currency echange rate
+    setCountry(country);                          // Set selected country
+    // Compute local currency based on exchange rate.
     if (usdAmount) { setLocalAmount(parseFloat(usdAmount) * currencyToUsdRate.toLocaleString('en-US'))}
   }
 
@@ -29,7 +35,7 @@ const AmountForm = ({
     <form
       className={`form-section currency-form form-section-2 slide-right-to-left flex-center-col ${activeSection == 2 ? "active" : ""} ${activeSection > 2 ? "slide-left-to-right" : ""}`}
       onSubmit={(e) => e.preventDefault()}
-    >
+      id="amount-form"    >
       <div>
         <div className="payment-option">
           <span className="payment-info">Enter Amount ($)</span>
@@ -40,7 +46,15 @@ const AmountForm = ({
             <span className="payment-info">Local Currency</span>
             (<CountryDropdown countryCurrency={countryCurrency} country={country} />)
           </div>
-          <input required type="text" value={localAmount ? `(${currency}) ${localAmount.toFixed(2).toLocaleString('en-us')}` : ""} name="currency" disabled placeholder={currency} />
+          <input 
+            required
+            type="text"
+            value={ localAmount && fetchCurrencyState == true ? `(${currency}) ${localAmount.toFixed(2).toLocaleString('en-us')}` : "" }
+            name="amount" 
+            disabled
+            placeholder={fetchCurrencyState == "pending" ? "converting.." : currency}
+            style={{cursor: "not-allowed"}}
+          />
         </div>
       </div>
 

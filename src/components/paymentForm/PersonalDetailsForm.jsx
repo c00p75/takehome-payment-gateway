@@ -11,7 +11,11 @@ const PersonalDetailsForm = ({
   setEmail,
 }) => {
   return (
-    <form className={`form-section slide-left-to-right ${activeSection == 1 ? "active" : ''}`} onSubmit={(e) => e.preventDefault()}>
+    <form 
+      className={`form-section slide-left-to-right ${activeSection == 1 ? "active" : ''}`}
+      onSubmit={(e) => e.preventDefault()}
+      id='personal-details-form'
+    >
       <div>
         <div className="header flex-center">
           <span className="logo title">FutureEd<br />Foundation</span>
