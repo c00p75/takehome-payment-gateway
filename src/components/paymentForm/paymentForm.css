@@ -526,3 +526,34 @@
   font-size: 2em;
   margin: 1em 0;
 }
+
+.text-sm {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .main_back {
+    background: none;
+  }
+
+  .card .mobile-money-icon {
+    opacity: 1;
+  }
+
+  .card > button {
+    margin: 0.7em;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .payment-type-heading {
+    display: none;
+  }
+
+  .text-sm {
+    margin-bottom: 1em;
+    position: relative;
+    display: block;
+    text-align: center;
+    color: black;
+  }
+}

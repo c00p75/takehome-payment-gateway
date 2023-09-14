@@ -135,7 +135,7 @@ app.post(baseUrl, async (req, res) => {
       customerLastName: data.lastName,
       customerPhone: "0"+ data.wallet,
       wallet: "0" + data.wallet,
-      amount: data.localAmount,
+      amount: data.localAmount.toFixed(2),
       currency: data.currency,
       merchantPublicKey: SPARCO_PUB_KEY,
       transactionName: data.reference,
