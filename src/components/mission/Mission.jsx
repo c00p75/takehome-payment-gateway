@@ -17,7 +17,7 @@ const Mission = ({showPaymentForm, setShowForm}) => {
             <p><strong>Community Impact: </strong><span> By contributing to our education program, you are investing in stronger, more informed communities that can drive positive change.</span></p>
           </div>
         </div>
-        <div className="mission-img">
+        <div className="mission-img flex-center">
           <img src={pupil} alt="school pupil" />
         </div>
       </div>

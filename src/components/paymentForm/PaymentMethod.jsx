@@ -35,6 +35,7 @@ const PaymentMethod = ({
         <span className="payment-info flex-center">SELECT PAYMENT METHOD</span>
         <div className="flex-center-col">
           <div className="flex-center-col payment-method">
+            <p className="text text-sm payment-type-heading">Card</p>
             <div className="main visa-card-main">
               <div className="card">
                 <button onClick={() => {retrievePaypalId(); setActiveSection(activeSection + 1)}} type="button" className="visa-btn">
@@ -46,6 +47,7 @@ const PaymentMethod = ({
             </div>
           </div>
           <div className="flex-center-col payment-method">
+            <p className="text text-sm payment-type-heading">Mobile Money</p>
             <div className="main">
               <div className="card">
                 <button onClick={() => {setPaymentmode("airtel"); setActiveSection(activeSection + 1)}} type="button" className="aitel-btn"><img src={airtelLogo} alt="airtel money" className="mobile-money-icon airtel"/></button>

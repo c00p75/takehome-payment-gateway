@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import './index.css'
 import Banner from "./components/banner/Banner"
 import DonateBtn from "./components/donateBtn/DonateBtn";
@@ -10,6 +10,11 @@ import PaymentForm from "./components/paymentForm/PaymentForm";
 
 const App = () => {
   const [showPaymentForm, setShowForm] = useState(false);
+  const body = document.querySelector('body');
+  useEffect(() => {
+    if (showPaymentForm) { body.style.overflow = 'hidden';}
+    if (!showPaymentForm) {body.style.overflow = 'auto';}
+  }, [showPaymentForm]); 
 
   return (
     <div id="app">

@@ -8,8 +8,7 @@
 
 .mission:first-child {
   background-color: whitesmoke;
-  padding: 3em 2em;
-  height: 95vh;
+  padding: 7% 2em;
 }
 
 .mission-info-1,
@@ -138,4 +137,19 @@
 
 .mission-card .donate-btn button:hover {
   box-shadow: 0 2px 0 0 white;
+}
+
+@media (max-width: 768px) {
+  .mission:first-child {
+    flex-direction: column;
+  }
+
+  .mission-card-container {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .mission-img img {
+    margin: 0;
+  }
 }
