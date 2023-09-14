@@ -10,20 +10,14 @@ import PaymentForm from "./components/paymentForm/PaymentForm";
 
 const App = () => {
   const [showPaymentForm, setShowForm] = useState(false);
-  const setShowPaymentForm = (bool) => {
-    const body = document.querySelector('body');
-    if (bool) { body.style.overflow = 'hidden';}
-    else {body.style.overflow = 'auto';}
-    setShowForm(bool);
-  }
 
   return (
     <div id="app">
       <Banner />
-      <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+      <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
       <Metrics />
-      <Mission setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
-      <PaymentForm setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+      <Mission setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
+      {showPaymentForm && (<PaymentForm setShowForm={setShowForm} showPaymentForm={showPaymentForm} />)}
       <Footer />
     </div>
   )

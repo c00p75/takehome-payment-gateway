@@ -3,7 +3,7 @@ import pupil from '../../assets/images/child-learning.jpg';
 import DonateBtn from '../donateBtn/DonateBtn';
 import './mission.css';
 
-const Mission = ({showPaymentForm, setShowPaymentForm}) => {
+const Mission = ({showPaymentForm, setShowForm}) => {
   return (
     <div className="mission-container">
       <div className="mission flex-center">
@@ -29,42 +29,42 @@ const Mission = ({showPaymentForm, setShowPaymentForm}) => {
               <strong>One-Time Donation</strong>
               <span>
                 Make a single, impactful donation to support our ongoing education initiatives.
-                <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+                <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
               </span>
             </div>
             <div className="mission-card">
               <strong>Monthly Giving</strong>
               <span>
                 Join our community of monthly donors to provide consistent, reliable support for our programs.
-                <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+                <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
               </span>
             </div>
             <div className="mission-card">
               <strong>Sponsor a Student</strong>
               <span>
                 Offer a scholarship or sponsorship to a deserving student, giving them the gift of education.
-                <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+                <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
               </span>
             </div>
             <div className="mission-card">
               <strong>In-Kind Donations</strong>
               <span>
                 Contribute educational materials, books, or equipment to enhance the learning experience.
-                <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+                <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
               </span>
             </div>
             <div className="mission-card">
               <strong>Volunteer</strong>
               <span>
                 Share your knowledge and expertise as a volunteer tutor or mentor.
-                <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+                <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
               </span>
             </div>
             <div className="mission-card">
               <strong>Corporate Partnerships</strong>
               <span>
                 Explore partnership opportunities for your organization to invest in education and give back to the community.
-                <DonateBtn setShowPaymentForm={setShowPaymentForm} showPaymentForm={showPaymentForm} />
+                <DonateBtn setShowForm={setShowForm} showPaymentForm={showPaymentForm} />
               </span>
             </div>
           </div>
@@ -76,7 +76,7 @@ const Mission = ({showPaymentForm, setShowPaymentForm}) => {
 
 Mission.propTypes = {
   showPaymentForm: PropTypes.bool.isRequired,
-  setShowPaymentForm: PropTypes.func.isRequired,
+  setShowForm: PropTypes.func.isRequired,
 };
 
 

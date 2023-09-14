@@ -12,7 +12,12 @@ import PaymentMethod from './PaymentMethod';
 import CheckoutForm from './CheckoutForm';
 import PaymentStatus from './PaymentStatus';
 
-const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
+const PaymentForm = ({showPaymentForm, setShowForm}) => {
+  const handleFormClose = () => {
+    const confirmClose = window.confirm('Are you sure you want to close the form? \nAll data will be lost.');
+    if (confirmClose) { setShowForm(false); }
+  };
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +34,7 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
   const [payPalId, setPayPalId] = useState("");
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const baseUrl =  "http://localhost:3001/api/v1/payment";
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setPaymentStatus("pending");
@@ -145,7 +150,7 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
           />
         </div>
 
-        <button type="button" className="close-form-btn" onClick={() => setShowPaymentForm(false)}>
+        <button type="button" className="close-form-btn" onClick={() => handleFormClose()}>
           <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 32 32"><path fill="black" d="M16 2C8.2 2 2 8.2 2 16s6.2 14 14 14s14-6.2 14-14S23.8 2 16 2zm5.4 21L16 17.6L10.6 23L9 21.4l5.4-5.4L9 10.6L10.6 9l5.4 5.4L21.4 9l1.6 1.6l-5.4 5.4l5.4 5.4l-1.6 1.6z" /></svg>
         </button>
         {activeSection > 1 && (
@@ -164,7 +169,7 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
 
 PaymentForm.propTypes = {
   showPaymentForm: PropTypes.bool.isRequired,
-  setShowPaymentForm: PropTypes.func.isRequired,
+  setShowForm: PropTypes.func.isRequired,
 };
 
 export default PaymentForm;
