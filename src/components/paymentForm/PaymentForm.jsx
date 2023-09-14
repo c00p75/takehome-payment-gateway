@@ -25,10 +25,8 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
   const [wallet, setWallet] = useState("");
   const [reference, setReference] = useState("Donation");
   const [paymentStatus, setPaymentStatus] = useState("");
+  const [payPalStatus, setPayPalStatus] = useState(false);
   const [paymentStatusError, setPaymentStatusError] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardCVC, setCardCVC] = useState("");
-  const [expirationDate, setExpirationDate] = useState("");
   const baseUrl =  "http://localhost:3001/api/v1/payment";
 
   const handleSubmit = async (e) => {
@@ -46,6 +44,8 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
       currency,
       paymentmode,
       reference,
+      paymentStatus,
+      payPalStatus,
     };
 
     try {
@@ -126,15 +126,11 @@ const PaymentForm = ({showPaymentForm, setShowPaymentForm}) => {
             wallet={wallet}
             setWallet={setWallet}
             currency={currency}
+            usdAmount={usdAmount}
             localAmount={localAmount}
             handleSubmit={handleSubmit}
-            cardNumber={cardNumber}
-            setCardNumber={setCardNumber}
-            cardCVC={cardCVC}
-            setCardCVC={setCardCVC}
-            expirationDate={expirationDate}
-            setExpirationDate={setExpirationDate}
             visaLogo={visaLogo}
+            setPayPalStatus={setPayPalStatus}
           />
           
           <PaymentStatus
