@@ -51,14 +51,14 @@ app.get(`${baseUrl}/paypal-id`, (req, res) => {
 const sparcoPaymentStatus = (requestRef, encoded_payload) => {
   // Return a promise
   return new Promise((resolve) => {
-    // Return failed status if payment is still pending after 2 minutes
+    // Return failed status if payment is still pending after 3 minutes
     const timer = setTimeout(() => {
       console.log("Sparco payment request timed out")
       clearInterval(interval);
       resolve('FAILED');
-    }, 60000);
+    }, 180000);
 
-    // Set interval to repeatedly check payment status
+    // Set interval to repeatedly check payment status every 5 seconds
     let interval = setInterval(async () => {
       try {
         const paymentStatus = await fetch(`https://live.sparco.io/gateway/api/v1/transaction/query?reference=${requestRef}`, {
@@ -100,7 +100,7 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
         clearTimeout(timer);
         resolve("FAILED");                    // Resolve the promise with the final status
       }
-    }, 2000);
+    }, 5000);
   });
 };
 
@@ -135,7 +135,7 @@ app.post(baseUrl, async (req, res) => {
       customerLastName: data.lastName,
       customerPhone: "0"+ data.wallet,
       wallet: "0" + data.wallet,
-      amount: data.localAmount.toFixed(2),
+      amount: data.localAmount,
       currency: data.currency,
       merchantPublicKey: SPARCO_PUB_KEY,
       transactionName: data.reference,
@@ -157,6 +157,7 @@ app.post(baseUrl, async (req, res) => {
       });
 
       if (sparcoPaymentRequest.ok) {
+        console.log('Request successfully sent to Sparco API')
         const response = await sparcoPaymentRequest.json();                                   // Parse the response data as JSON
         const sparcoSatus = await sparcoPaymentStatus(response.reference, encoded_payload);   // Passing reference to check payment status
         if (sparcoSatus == "SUCCESS") {
