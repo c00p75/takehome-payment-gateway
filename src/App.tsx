@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect, useState } from "react"
 import './index.css'
 import Banner from "./components/banner/Banner"
@@ -9,14 +11,14 @@ import PaymentForm from "./components/paymentForm/PaymentForm";
 
 
 const App = () => {
-  const [showPaymentForm, setShowForm] = useState(false);
+  const [showPaymentForm, setShowForm] = useState<boolean>(false);
 
   // Disable body scroll when form popup is open
   const body = document.querySelector('body');
   useEffect(() => {
-    if (showPaymentForm) { body.style.overflow = 'hidden';}
-    if (!showPaymentForm) {body.style.overflow = 'auto';}
-  }, [showPaymentForm]); 
+    if (body && showPaymentForm) { body.style.overflow = 'hidden';}
+    if (body && !showPaymentForm) {body.style.overflow = 'auto';}
+  }, [showPaymentForm, body]); 
 
   return (
     <div id="app">
@@ -27,7 +29,7 @@ const App = () => {
       {showPaymentForm && (<PaymentForm setShowForm={setShowForm} showPaymentForm={showPaymentForm} />)}
       <Footer />
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;

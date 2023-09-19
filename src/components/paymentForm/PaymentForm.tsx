@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import './paymentForm.css';
 import airtelLogo from '../../assets/images/Airtel Money.png'
 import mtnLogo from '../../assets/images/MTN.png'
@@ -11,8 +11,9 @@ import AmountForm from './AmountForm';
 import PaymentMethod from './PaymentMethod';
 import CheckoutForm from './CheckoutForm';
 import PaymentStatus from './PaymentStatus';
+import { paymentFormProps } from "../../constants/types.ts";
 
-const PaymentForm = ({showPaymentForm, setShowForm}) => {
+const PaymentForm: React.FC <paymentFormProps> = ({showPaymentForm, setShowForm}) => {
   const handleFormClose = () => {
     const confirmClose = window.confirm('Are you sure you want to close the form? \nAll data will be lost.');
     if (confirmClose) { setShowForm(false); }
@@ -35,7 +36,7 @@ const PaymentForm = ({showPaymentForm, setShowForm}) => {
   const [paymentStatusError, setPaymentStatusError] = useState("");
   const baseUrl =  "http://localhost:3001/api/v1/payment";
   
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPaymentStatus("pending");
     setActiveSection(activeSection + 1);
@@ -78,7 +79,9 @@ const PaymentForm = ({showPaymentForm, setShowForm}) => {
   document.querySelectorAll('.form-section button').forEach((btn) => {
     btn.addEventListener('focus', () => {
       btn.addEventListener('keydown', (event) => {
-        if (event.key === 'Tab') { event.preventDefault(); }    // prevent default tab behavior
+        if ((event as KeyboardEvent).key === 'Tab') {     // Use as 
+          event.preventDefault(); // prevent default tab behavior
+        } 
       })
     });
   })

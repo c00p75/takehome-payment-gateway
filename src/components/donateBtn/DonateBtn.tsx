@@ -1,7 +1,8 @@
 import './donateBtn.css';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
+import { ShowPaymentFormProps } from "../../constants/types.ts";
 
-const DonateBtn = ({showPaymentForm, setShowForm}) => {
+const DonateBtn: React.FC <ShowPaymentFormProps> = ({showPaymentForm, setShowForm}) => {
   return (
     <div className={`donate-btn flex-center ${showPaymentForm ? 'non-visible' : ''}`}>
       <button onClick={() => setShowForm(true)}>DONATE NOW</button>

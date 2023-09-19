@@ -1,9 +1,10 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import pupil from '../../assets/images/child-learning.jpg';
 import DonateBtn from '../donateBtn/DonateBtn';
 import './mission.css';
+import { ShowPaymentFormProps } from "../../constants/types.ts";
 
-const Mission = ({showPaymentForm, setShowForm}) => {
+const Mission: React.FC <ShowPaymentFormProps> = ({showPaymentForm, setShowForm}) => {
   return (
     <div className="mission-container">
       <div className="mission flex-center">
