@@ -59,7 +59,7 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
     }, 180000);
 
     // Set interval to repeatedly check payment status every 5 seconds
-    let interval = setInterval(async () => {
+    const interval = setInterval(async () => {
       try {
         const paymentStatus = await fetch(`https://live.sparco.io/gateway/api/v1/transaction/query?reference=${requestRef}`, {
           headers: { 'token': encoded_payload },

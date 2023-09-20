@@ -1,7 +1,7 @@
-import { PropTypes } from 'prop-types';
 import PayPalCheckoutBtn from './PayPalCheckoutBtn';
+import { CheckoutFormProps } from "../../constants/types.ts";
 
-const CheckoutForm = ({
+const CheckoutForm: React.FC <CheckoutFormProps> = ({
   activeSection,
   paymentmode,
   airtelLogo,
@@ -36,11 +36,20 @@ const CheckoutForm = ({
             <span className="payment-info">Enter number</span>
             <div className="payment-option-input" style={{padding:"0"}}>
               <span style={{paddingLeft: "0.5em"}}>(+260)</span>
-              <input required type="text" maxLength="9" onChange={(e) => setWallet(e.target.value)} value={wallet} name="wallet number"placeholder={paymentmode === "airtel" ? "974549983" : (paymentmode === "mtn" ? "966072500" : "955966226")} style={{padding: "1rem 0.4rem"}} />
+              <input
+                required
+                type="text"
+                maxLength={9}
+                onChange={(e) => setWallet(e.target.value)}
+                value={wallet}
+                name="wallet number"
+                placeholder={paymentmode === "airtel" ? "974549983" : (paymentmode === "mtn" ? "966072500" : "955966226")}
+                style={{padding: "1rem 0.4rem"}}
+              />
             </div>
             
             <span className="payment-info">Amount</span>
-            <input required type="text" value={`(${currency}) ${localAmount.toFixed(2)}`} name="reference" disabled placeholder="Reference" />
+            <input required type="text" value={`(${currency}) ${localAmount}`} name="reference" disabled placeholder="Reference" />
 
             <span className="payment-info">Reference</span>
             <input required type="text" onChange={(e) => setReference(e.target.value)} value={reference} name="reference" placeholder="Reference" />
@@ -64,31 +73,6 @@ const CheckoutForm = ({
       </div>
     </form>
   );
-};
-
-CheckoutForm.propTypes = {
-  activeSection: PropTypes.number.isRequired,
-  airtelLogo: PropTypes.string.isRequired,
-  mtnLogo: PropTypes.string.isRequired,
-  zamtelLogo: PropTypes.string.isRequired,
-  paymentmode: PropTypes.string.isRequired,
-  reference: PropTypes.string.isRequired,
-  setReference: PropTypes.func.isRequired,
-  wallet: PropTypes.string.isRequired,
-  setWallet: PropTypes.func.isRequired,
-  currency: PropTypes.string.isRequired,
-  localAmount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
-  usdAmount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  visaLogo: PropTypes.string.isRequired,
-  setPayPalStatus: PropTypes.func.isRequired,
-  payPalId: PropTypes.string.isRequired,
 };
 
 export default CheckoutForm;

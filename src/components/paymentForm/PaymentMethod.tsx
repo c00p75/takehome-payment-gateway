@@ -1,23 +1,23 @@
-import { PropTypes } from 'prop-types';
+import { PaymentMethodProps } from "../../constants/types.ts";
 
-const PaymentMethod = ({
+const PaymentMethod: React.FC <PaymentMethodProps> = ({
   activeSection,
   setActiveSection,
-  setPaymentmode,
   visaLogo,
   airtelLogo,
   mtnLogo,
   zamtelLogo,
+  setPaymentmode,
   setPayPalId,
   setPaymentStatus,
-}) => {
+  setWallet,
+}) => {  
   const retrievePaypalId = async () => {
     setPaymentmode("visa");
     setPaymentStatus('pending');
     await fetch('http://localhost:3001/api/v1/payment/paypal-id')
       .then((res) => res.json())
       .then((data) => {
-        console.log(data, data["payPalId"])
         setPayPalId(data["payPalId"])
       })
       .catch((err) => {
@@ -50,13 +50,43 @@ const PaymentMethod = ({
             <p className="text text-sm payment-type-heading">Mobile Money</p>
             <div className="main">
               <div className="card">
-                <button onClick={() => {setPaymentmode("airtel"); setActiveSection(activeSection + 1)}} type="button" className="aitel-btn"><img src={airtelLogo} alt="airtel money" className="mobile-money-icon airtel"/></button>
+                <button
+                onClick={() => {
+                  setPaymentmode("airtel");
+                  setActiveSection(activeSection + 1);
+                  setWallet("");
+                }} 
+                type="button"
+                className="aitel-btn"
+              >
+                <img src={airtelLogo} alt="airtel money" className="mobile-money-icon airtel"/>
+              </button>
               </div>
               <div className="card">
-                <button onClick={() => {setPaymentmode("mtn"); setActiveSection(activeSection + 1)}} type="button" className="mtn-btn"><img src={mtnLogo} alt="mtn money" className="mobile-money-icon"/></button>
+                <button
+                onClick={() => {
+                  setPaymentmode("mtn");
+                  setActiveSection(activeSection + 1);
+                  setWallet("");
+                }} 
+                type="button"
+                className="mtn-btn"
+              >
+                <img src={mtnLogo} alt="mtn money" className="mobile-money-icon"/>
+              </button>
               </div>
               <div className="card">
-                <button onClick={() => {setPaymentmode("zamtel"); setActiveSection(activeSection + 1)}} type="button" className="zamtel-btn"><img src={zamtelLogo} alt="zamtel money" className="mobile-money-icon zamtel"/></button>
+                <button
+                onClick={() => {
+                  setPaymentmode("zamtel");
+                  setActiveSection(activeSection + 1);
+                  setWallet("");
+                }} 
+                type="button"
+                className="zamtel-btn"
+              >
+                <img src={zamtelLogo} alt="zamtel money" className="mobile-money-icon zamtel"/>
+              </button>
               </div>
               <p className="text payment-type-heading">Mobile Money</p>
               <div className="main_back" />
@@ -66,19 +96,6 @@ const PaymentMethod = ({
       </div>
     </form>
   );
-};
-
-PaymentMethod.propTypes = {
-  activeSection: PropTypes.number.isRequired,
-  setActiveSection: PropTypes.func.isRequired,
-  setPaymentmode: PropTypes.func.isRequired,
-  visaLogo: PropTypes.string.isRequired,
-  airtelLogo: PropTypes.string.isRequired,
-  mtnLogo: PropTypes.string.isRequired,
-  zamtelLogo: PropTypes.string.isRequired,
-  setPayPalId: PropTypes.func.isRequired,
-  setPaymentStatus: PropTypes.func.isRequired,
-  
 };
 
 export default PaymentMethod;

@@ -1,5 +1,5 @@
-const fetchCurrencyData = async (country) => {
-  let countryCurrency, currencyToUsdRate, status;
+const fetchCurrencyData = async (country: string) => {
+  let countryCurrency:string = '', currencyToUsdRate, status;
   await fetch(`https://restcountries.com/v3.1/name/${country}`)
   .then((res) => res.json())
   .then((json) => {

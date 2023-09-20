@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import './paymentForm.css';
 import airtelLogo from '../../assets/images/Airtel Money.png'
 import mtnLogo from '../../assets/images/MTN.png'
@@ -11,9 +10,9 @@ import AmountForm from './AmountForm';
 import PaymentMethod from './PaymentMethod';
 import CheckoutForm from './CheckoutForm';
 import PaymentStatus from './PaymentStatus';
-import { paymentFormProps } from "../../constants/types.ts";
+import { ShowPaymentFormProps } from "../../constants/types.ts";
 
-const PaymentForm: React.FC <paymentFormProps> = ({showPaymentForm, setShowForm}) => {
+const PaymentForm: React.FC <ShowPaymentFormProps> = ({showPaymentForm, setShowForm}) => {
   const handleFormClose = () => {
     const confirmClose = window.confirm('Are you sure you want to close the form? \nAll data will be lost.');
     if (confirmClose) { setShowForm(false); }
@@ -124,6 +123,7 @@ const PaymentForm: React.FC <paymentFormProps> = ({showPaymentForm, setShowForm}
             zamtelLogo={zamtelLogo}
             setPayPalId={setPayPalId}
             setPaymentStatus={setPaymentStatus}
+            setWallet={setWallet}
           />
           
           <CheckoutForm
@@ -168,11 +168,6 @@ const PaymentForm: React.FC <paymentFormProps> = ({showPaymentForm, setShowForm}
       </div>
     </div>
   );
-};
-
-PaymentForm.propTypes = {
-  showPaymentForm: PropTypes.bool.isRequired,
-  setShowForm: PropTypes.func.isRequired,
 };
 
 export default PaymentForm;

@@ -1,6 +1,6 @@
-import { PropTypes } from 'prop-types';
+import { PersonalDetailsFormProps } from "../../constants/types.ts";
 
-const PersonalDetailsForm = ({
+const PersonalDetailsForm: React.FC <PersonalDetailsFormProps> = ({
   activeSection,
   setActiveSection,
   firstName,
@@ -37,18 +37,7 @@ const PersonalDetailsForm = ({
         </div>
       </div>
     </form>
-  )
-}
-
-PersonalDetailsForm.propTypes = {
-  activeSection: PropTypes.number.isRequired,
-  setActiveSection: PropTypes.func.isRequired,
-  firstName: PropTypes.string.isRequired,
-  setFirstName: PropTypes.func.isRequired,
-  lastName: PropTypes.string.isRequired,
-  setLastName: PropTypes.func.isRequired,
-  email: PropTypes.string.isRequired,
-  setEmail: PropTypes.func.isRequired,
+  );
 };
 
-export default PersonalDetailsForm
+export default PersonalDetailsForm;

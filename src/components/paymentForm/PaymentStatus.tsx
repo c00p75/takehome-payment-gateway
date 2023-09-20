@@ -1,6 +1,6 @@
-import { PropTypes } from 'prop-types';
+import { PaymentStatusProps } from "../../constants/types.ts";
 
-const PaymentStatus = ({activeSection, paymentStatus, paymentStatusError}) => {
+const PaymentStatus: React.FC <PaymentStatusProps> = ({activeSection, paymentStatus, paymentStatusError}) => {
   return (
     <div className={`form-section payment-status flex-center-col slide-right-to-left ${activeSection == 5 ? "active" : ""} `} id='payment-status'>
       <div className="flex-center">
@@ -14,14 +14,7 @@ const PaymentStatus = ({activeSection, paymentStatus, paymentStatusError}) => {
       </div>
       {paymentStatus === "failed" && (<p>{paymentStatusError}</p>)}
     </div>
-  )
-}
-
-PaymentStatus.propTypes = {
-  activeSection: PropTypes.number.isRequired,
-  paymentStatus: PropTypes.string.isRequired,
-  paymentStatusError: PropTypes.string.isRequired,  
+  );
 };
 
-
-export default PaymentStatus
+export default PaymentStatus;

@@ -414,6 +414,10 @@
   margin-left: 1.5em;
 }
 
+.selectedOptionWidth .non-visible {
+  font-size: 1.15em;
+}
+
 .country-dropdown-container {
   display: flex;
 }
@@ -429,6 +433,7 @@
   top: 12.5%;
   left: -1.5em;
   width: -webkit-fill-available;
+  font-size: 1em;
 }
 
 .country-dropdown:focus {

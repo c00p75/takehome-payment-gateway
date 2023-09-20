@@ -1,6 +1,6 @@
-import { PropTypes } from 'prop-types';
+import { CountryDropdownProps } from "../../constants/types.ts";
 
-const CountryDropdown = ({countryCurrency, country}) => {
+const CountryDropdown: React.FC <CountryDropdownProps> = ({countryCurrency, country}) => {
   return (
     <div className='selectedOptionWidth'>
       <div className="non-visible">{country}</div>
@@ -262,11 +262,5 @@ const CountryDropdown = ({countryCurrency, country}) => {
     </div>
   )
 }
-
-CountryDropdown.propTypes = {
-  countryCurrency: PropTypes.func.isRequired,
-  country: PropTypes.string.isRequired,
-};
-
 
 export default CountryDropdown

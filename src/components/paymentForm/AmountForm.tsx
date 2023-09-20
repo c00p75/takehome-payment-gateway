@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { PropTypes } from 'prop-types';
 import CountryDropdown from "./CountryDropdown";
 import fetchCurrencyData from "../../modules/currencyConversion";
+import { AmountFormProps } from "../../constants/types.ts";
 
-const AmountForm = ({
+const AmountForm: React.FC <AmountFormProps> = ({
   activeSection,
   setActiveSection,
   usdAmount,
@@ -16,19 +16,19 @@ const AmountForm = ({
   setCurrency, 
 }) => {
   const [usdExchangeRate, setUsdExchangeRate] = useState(1);
-  const [fetchCurrencyState, setFetchCurrencyState] = useState(false);
+  const [fetchCurrencyState, setFetchCurrencyState] = useState<boolean | string>(false);
 
 
   // fetching currency data from api and assigning the returned value to appropriate variables
-  const countryCurrency = async(country) => {
+  const countryCurrency = async(country: string) => {
+    setCountry(country);                                               // Set selected country
     setFetchCurrencyState("pending");
     const { countryCurrency, currencyToUsdRate, status } = await fetchCurrencyData(country);
-    setFetchCurrencyState(status);                // set fetch currency call status
-    setCurrency(countryCurrency);                 // Set local currency name
-    setUsdExchangeRate(currencyToUsdRate);        // Set usd to local currency echange rate
-    setCountry(country);                          // Set selected country
+    if (status){ setFetchCurrencyState(status); }                // set fetch currency call status
+    if (countryCurrency){ setCurrency(countryCurrency); }        // Set local currency name
+    if (currencyToUsdRate){ setUsdExchangeRate(currencyToUsdRate); }   // Set usd to local currency echange rate
     // Compute local currency based on exchange rate.
-    if (usdAmount) { setLocalAmount(parseFloat(usdAmount) * currencyToUsdRate.toLocaleString('en-US'))}
+    if (usdAmount && currencyToUsdRate) {setLocalAmount((parseFloat(usdAmount) * currencyToUsdRate).toLocaleString())}
   }
 
   return (
@@ -39,7 +39,7 @@ const AmountForm = ({
       <div>
         <div className="payment-option">
           <span className="payment-info">Enter Amount ($)</span>
-          <input required type="number" onChange={(e) => {setUsdAmount(e.target.value); setLocalAmount(parseFloat(e.target.value) * usdExchangeRate)}} value={usdAmount} name="usdAmount" placeholder="USD($)" />
+          <input required type="number" onChange={(e) => {setUsdAmount(e.target.value); setLocalAmount((parseFloat(e.target.value) * usdExchangeRate).toLocaleString())}} value={usdAmount} name="usdAmount" placeholder="USD($)" />
         </div>
         <div className="payment-option">
           <div className="country-dropdown-container">
@@ -49,7 +49,7 @@ const AmountForm = ({
           <input 
             required
             type="text"
-            value={ localAmount && fetchCurrencyState == true ? `(${currency}) ${localAmount.toFixed(2).toLocaleString('en-us')}` : "" }
+            value={ localAmount && fetchCurrencyState == true ? `(${currency}) ${localAmount}` : "" }
             name="amount" 
             disabled
             placeholder={fetchCurrencyState == "pending" ? "converting.." : currency}
@@ -69,20 +69,5 @@ const AmountForm = ({
   );
 };
 
-AmountForm.propTypes = {
-  activeSection: PropTypes.number.isRequired,
-  setActiveSection: PropTypes.func.isRequired,
-  usdAmount: PropTypes.string.isRequired,
-  setUsdAmount: PropTypes.func.isRequired,
-  localAmount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-  ]).isRequired,
-  setLocalAmount: PropTypes.func.isRequired,
-  country: PropTypes.string.isRequired,
-  setCountry: PropTypes.func.isRequired,
-  currency: PropTypes.string.isRequired,
-  setCurrency: PropTypes.func.isRequired, 
-};
 
 export default AmountForm;
