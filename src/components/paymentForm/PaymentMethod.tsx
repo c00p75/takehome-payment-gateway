@@ -88,7 +88,7 @@ const PaymentMethod: React.FC <PaymentMethodProps> = ({
                 <img src={zamtelLogo} alt="zamtel money" className="mobile-money-icon zamtel"/>
               </button>
               </div>
-              <p className="text payment-type-heading">Mobile Money</p>
+              <p className="text payment-type-heading">Mobile Money <br/><i style={{fontSize: "0.8em", letterSpacing: "0.2em", fontWeight: "lighter"}}>(Zambia only)</i> </p>
               <div className="main_back" />
             </div>
           </div>
