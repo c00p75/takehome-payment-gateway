@@ -1,5 +1,5 @@
 services:
-  - name: your-service-name
+  - name: future-ed-backend
     type: web
     buildCommand: |
       npm install && npm run build
