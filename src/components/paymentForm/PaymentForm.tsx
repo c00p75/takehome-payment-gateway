@@ -33,8 +33,8 @@ const PaymentForm: React.FC <ShowPaymentFormProps> = ({showPaymentForm, setShowF
   const [payPalStatus, setPayPalStatus] = useState(false);
   const [payPalId, setPayPalId] = useState("");
   const [paymentStatusError, setPaymentStatusError] = useState("");
-  const baseUrl =  "http://localhost:3001/api/v1/payment";
-  
+  const baseUrl =  "/api/v1/payment";
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPaymentStatus("pending");

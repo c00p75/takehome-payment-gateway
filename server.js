@@ -6,26 +6,11 @@ import fs from 'fs';
 import dotenv from 'dotenv';
 import process from 'process';
 import path from 'path';
-// import dirname from 'dirname';
 import { fileURLToPath } from 'url';
 import { v4 as uuidv4 } from 'uuid';
 import jwt_encode from "jwt-encode";
 import fetch from 'node-fetch';
 
-// Configure and retrieve environment variables
-dotenv.config();
-const SPARCO_PUB_KEY =  process.env.SPARCO_PUB_KEY;
-const SPARCO_SEC_KEY =  process.env.SPARCO_SEC_KEY;
-const payPalId = process.env.PAYPAL_CLIENT_ID;
-
-if (!SPARCO_PUB_KEY) { console.log('Sparco Public Key missing') }
-if (!SPARCO_SEC_KEY) { console.log('Sparco Secrete Key missing') }
-if (!payPalId) { console.log('Paypal client ID missing') }
-
-// Declare port variable
-const port = process.env.PORT || 3001
-
-const baseUrl = '/api/v1/payment';
 
 // Create an expressJs instance
 const app = express();
@@ -37,6 +22,20 @@ app.use(cors({
   allowedHeaders: '*',                               // allowed headers
 }));
 
+// Configure and retrieve environment variables
+dotenv.config();
+const SPARCO_PUB_KEY =  process.env.SPARCO_PUB_KEY;
+const SPARCO_SEC_KEY =  process.env.SPARCO_SEC_KEY;
+const payPalId = process.env.PAYPAL_CLIENT_ID;
+
+if (!SPARCO_PUB_KEY) { console.log('Sparco Public Key missing') }
+if (!SPARCO_SEC_KEY) { console.log('Sparco Secrete Key missing') }
+if (!payPalId) { console.log('Paypal client ID missing') }
+
+// Declare port and url variable
+const port = process.env.PORT || 3001
+const baseUrl = '/api/v1/payment';
+
 // Make url data more readable
 app.use(express.json());
 
@@ -46,21 +45,59 @@ const __dirname = path.dirname(__filename); // Get the current directory
 
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// All other routes will be handled by serving the 'index.html' file.
+// Listen for requests
+app.listen(port, () => {
+  console.log(`Server is running on https://localhost:${port}`);
+})
+
+// All routes will be handled by serving the 'index.html' file.
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
+// Currency conversion
+const fetchCurrencyData = async (country) => {
+  console.log('Fetching converted currency');
+  let countryCurrency = '', currencyToUsdRate, status;
+  await fetch(`https://restcountries.com/v3.1/name/${country}`)
+  .then((res) => res.json())
+  .then((json) => {
+    countryCurrency = Object.keys(json[0].currencies)[0]
+  })
+  .catch(error => {                                                      // Handle any errors
+    console.error(error);
+    status = false;
+  });
 
-// Listen for requests
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+
+  const tempAccessKey = "397012be4f747e005d730440024aaf2a"
+  // Free currency api that only provides the base currency in euros.
+  await fetch(`http://data.fixer.io/api/latest?access_key=${tempAccessKey}`)
+  .then((res) => res.json())
+  .then((json) => {
+    const eurToUsd = 1/json.rates.USD;  // Converte Euro Amount to USD. 1 USD = 1 / 1.20 EUR
+    currencyToUsdRate = json.rates[countryCurrency] * eurToUsd;
+    status = true;
+  })
+  .catch(error => {                                                      // Handle any errors
+    console.error(error);
+    status = false;
+  });
+  console.log(countryCurrency, currencyToUsdRate, status);
+  return {countryCurrency, currencyToUsdRate, status};
+}
+
+
+app.post(`${baseUrl}/currency-conversion`, async (req, res) => {
+  const country = req.body.country;
+  const countryCurrencyConversion = await fetchCurrencyData(country);
+  if (countryCurrencyConversion){
+    console.log(countryCurrencyConversion);
+    res.status(200).json(countryCurrencyConversion);                      // Send a successful response.
+  } else {
+    res.status(500).send('Internal Server Error(missing server side credentials)');
+  }
 })
-
-// Retrive paypal client id
-app.get(`${baseUrl}/paypal-id`, (req, res) => {
-  res.json({ payPalId });
-});
 
 // Check sparco payment status
 const sparcoPaymentStatus = (requestRef, encoded_payload) => {

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import CountryDropdown from "./CountryDropdown";
-import fetchCurrencyData from "../../modules/currencyConversion";
 import { AmountFormProps } from "../../constants/types.ts";
 
 const AmountForm: React.FC <AmountFormProps> = ({
@@ -18,17 +17,27 @@ const AmountForm: React.FC <AmountFormProps> = ({
   const [usdExchangeRate, setUsdExchangeRate] = useState(1);
   const [fetchCurrencyState, setFetchCurrencyState] = useState<boolean | string>(false);
 
-
   // fetching currency data from api and assigning the returned value to appropriate variables
   const countryCurrency = async(country: string) => {
     setCountry(country);                                               // Set selected country
     setFetchCurrencyState("pending");
-    const { countryCurrency, currencyToUsdRate, status } = await fetchCurrencyData(country);
-    if (status){ setFetchCurrencyState(status); }                // set fetch currency call status
-    if (countryCurrency){ setCurrency(countryCurrency); }        // Set local currency name
-    if (currencyToUsdRate){ setUsdExchangeRate(currencyToUsdRate); }   // Set usd to local currency echange rate
-    // Compute local currency based on exchange rate.
-    if (usdAmount && currencyToUsdRate) {setLocalAmount((parseFloat(usdAmount) * currencyToUsdRate).toLocaleString())}
+    const response = await fetch("/api/v1/payment/currency-conversion", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({'country':country}),
+    });
+
+    if (response.ok) {                                                  // Check the response status
+      const data = await response.json();
+      const { countryCurrency, currencyToUsdRate, status } = data;
+      if (status){ setFetchCurrencyState(status); }                     // set fetch currency call status
+      if (countryCurrency){ setCurrency(countryCurrency); }             // Set local currency name
+      if (currencyToUsdRate){ setUsdExchangeRate(currencyToUsdRate); }  // Set usd to local currency echange rate
+      // Compute local currency based on exchange rate.
+      if (usdAmount && currencyToUsdRate) {setLocalAmount((parseFloat(usdAmount) * currencyToUsdRate).toLocaleString())}
+    } else {
+      console.error('Error submitting data:', response.statusText);       // Handle the error response
+    }
   }
 
   return (
