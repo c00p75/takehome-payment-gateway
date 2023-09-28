@@ -15,7 +15,7 @@ const PaymentMethod: React.FC <PaymentMethodProps> = ({
   const retrievePaypalId = async () => {
     setPaymentmode("visa");
     setPaymentStatus('pending');
-    await fetch('http://localhost:3001/api/v1/payment/paypal-id')
+    await fetch('/api/v1/payment/paypal-id')
       .then((res) => res.json())
       .then((data) => {
         setPayPalId(data["payPalId"])

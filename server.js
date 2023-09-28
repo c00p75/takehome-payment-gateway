@@ -28,10 +28,6 @@ const SPARCO_PUB_KEY =  process.env.SPARCO_PUB_KEY;
 const SPARCO_SEC_KEY =  process.env.SPARCO_SEC_KEY;
 const payPalId = process.env.PAYPAL_CLIENT_ID;
 
-console.log(SPARCO_PUB_KEY);
-console.log(SPARCO_SEC_KEY);
-console.log(payPalId);
-
 if (!SPARCO_PUB_KEY) { console.log('Sparco Public Key missing') }
 if (!SPARCO_SEC_KEY) { console.log('Sparco Secrete Key missing') }
 if (!payPalId) { console.log('Paypal client ID missing') }
@@ -95,10 +91,9 @@ app.post(`${baseUrl}/currency-conversion`, async (req, res) => {
   const country = req.body.country;
   const countryCurrencyConversion = await fetchCurrencyData(country);
   if (countryCurrencyConversion){
-    console.log(countryCurrencyConversion);
     res.status(200).json(countryCurrencyConversion);                      // Send a successful response.
   } else {
-    res.status(500).send('Internal Server Error(missing server side credentials)');
+    res.status(500).send('Internal Server Error(Data fetch error)');
   }
 })
 
