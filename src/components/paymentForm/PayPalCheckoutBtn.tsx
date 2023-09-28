@@ -14,17 +14,19 @@ const PayPalCheckoutBtn: React.FC <PayPalCheckoutBtnProps> = ({usdAmount, setPay
         <PayPalScriptProvider options={{clientId: id}}>
           <PayPalButtons
             style={{color: "silver"}}
-            createOrder={(actions: any) => {
+            createOrder={(_, actions) => {
               return actions.order.create({
                 purchase_units: [{
                   description: 'FutureEd Donation',
-                    amount: { value: usdAmount }
+                    amount: { value: usdAmount || '0' }
                 }],
               })
             }}
-            onApprove={async(actions: any) => {
-              const order = await actions.order.capture;
-              console.log("Order: ", order);
+            onApprove={async(_, actions) => {
+              if (actions.order) {
+                const order = await actions.order.capture();
+                console.log("Order: ", order);
+              }
               handleApprove();
             }}
             onError={(error) => {
