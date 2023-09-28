@@ -28,6 +28,10 @@ const SPARCO_PUB_KEY =  process.env.SPARCO_PUB_KEY;
 const SPARCO_SEC_KEY =  process.env.SPARCO_SEC_KEY;
 const payPalId = process.env.PAYPAL_CLIENT_ID;
 
+console.log(SPARCO_PUB_KEY);
+console.log(SPARCO_SEC_KEY);
+console.log(payPalId);
+
 if (!SPARCO_PUB_KEY) { console.log('Sparco Public Key missing') }
 if (!SPARCO_SEC_KEY) { console.log('Sparco Secrete Key missing') }
 if (!payPalId) { console.log('Paypal client ID missing') }
