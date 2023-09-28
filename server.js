@@ -83,7 +83,6 @@ const fetchCurrencyData = async (country) => {
     console.error(error);
     status = false;
   });
-  console.log(countryCurrency, currencyToUsdRate, status);
   return {countryCurrency, currencyToUsdRate, status};
 }
 
