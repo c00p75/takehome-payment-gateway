@@ -98,6 +98,12 @@ app.post(`${baseUrl}/currency-conversion`, async (req, res) => {
   }
 })
 
+// Retrive paypal client id
+app.get(`${baseUrl}/paypal-id`, (req, res) => {
+  res.json({ payPalId });
+});
+
+
 // Check sparco payment status
 const sparcoPaymentStatus = (requestRef, encoded_payload) => {
   // Return a promise

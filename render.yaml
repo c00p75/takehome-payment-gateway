@@ -1,7 +1,13 @@
 services:
   - name: future-ed-backend
     type: web
-    # buildCommand: |
-    #   npm install && npm run build
-    # startCommand: node server.js
-
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: SPARCO_PUB_KEY
+        sync: false
+      - key: SPARCO_SEC_KEY
+        sync: false
+        
