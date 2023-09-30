@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "concurrently \"node server.js\" \"npm run dev\"",
+    "start": "node server.js",
     "test": "react-scripts test"
   },
   "dependencies": {
@@ -19,24 +19,29 @@
     "fs": "^0.0.1-security",
     "jwt-encode": "^1.0.1",
     "node-fetch": "^3.3.2",
+    "path": "^0.12.7",
     "process": "^0.11.10",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
     "react-test-renderer": "^18.2.0",
     "react-testing-library": "^8.0.1",
+    "url": "^0.11.3",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.7.2",
     "@vitejs/plugin-react": "^4.0.3",
-    "concurrently": "^8.2.1",
     "eslint": "^8.45.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "jest": "^29.7.0",
+    "typescript": "^5.2.2",
     "vite": "^4.4.5",
     "vite-plugin-commonjs": "^0.9.0"
   }
