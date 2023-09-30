@@ -196,6 +196,6 @@ P.S. Stack Overflow and Google 😉
 
 **Please Note:** This project is intended for demonstration purposes only. It is not associated with or representative of any real charity organization, and will process actual financial transactions.
 
-**Do Not Send Real Money:** I want to emphasize that you should not send real money or make real financial transactions through this project. Any payment or transaction made within this project is solely for testing and simulation purposes, and the funds will be received by the project creator (George M'sapenda) for demonstration purposes only. I will not be responsible for any financial transactions made in error.
+**Do Not Send Real Money:** I want to emphasize that you should not send real money or make real financial transactions through this project. Any payment or transaction made within this project is solely for testing and simulation purposes, and the funds will be received by the API credential holders for demonstration purposes only. I will not be responsible for any financial transactions made in error.
 
 If you have any questions or concerns about the project, please feel free to create an issue for clarification.
