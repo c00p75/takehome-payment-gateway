@@ -6,7 +6,6 @@ import dotenv from 'dotenv';
 import process from 'process';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { v4 as uuidv4 } from 'uuid';
 import fetchCurrencyData from './services/currencyService.js';
 import { SPARCO_PUB_KEY, SPARCO_SEC_KEY, sparcoPayment } from './services/sparcoService.js';
 import addUserToDataBase from './services/storage.js';
@@ -80,23 +79,8 @@ app.post(baseUrl, async (req, res) => {
   if (data.paymentmode !== 'visa' && SPARCO_PUB_KEY && SPARCO_SEC_KEY) {
     console.log("Payment Method: Mobile Money")
 
-    // Create SparcoPay payload
-    const payload = {
-      customerEmail: data.email,
-      customerFirstName: data.firstName,
-      customerLastName: data.lastName,
-      customerPhone: "0"+ data.wallet,
-      wallet: "0" + data.wallet,
-      amount: data.localAmount,
-      currency: data.currency,
-      merchantPublicKey: SPARCO_PUB_KEY,
-      transactionName: data.reference,
-      transactionReference: uuidv4(),       // Generate random reference
-      chargeMe: false,
-    };
-
     // Make sparco payment
-    sparcoPayment(payload, res);
+    sparcoPayment(data, res);
 
   } else if (data.paymentmode === 'visa'){                            // Handle paypal payment status
     if(data.payPalStatus == true){

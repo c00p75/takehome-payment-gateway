@@ -3,6 +3,7 @@ import process from 'process';
 import fetch from 'node-fetch';
 import jwt_encode from "jwt-encode";
 import addUserToDataBase from './storage.js';
+import { v4 as uuidv4 } from 'uuid';
 
 dotenv.config();
 const SPARCO_PUB_KEY =  process.env.SPARCO_PUB_KEY;
@@ -69,10 +70,25 @@ const sparcoPaymentStatus = (requestRef, encoded_payload) => {
   });
 };
 
-const sparcoPayment =async (payload, res) => {
+const sparcoPayment =async (data, res) => {
+  
+    // Create SparcoPay payload
+    const payload = {
+      amount: parseFloat(data.localAmount),
+      currency: data.currency,
+      customerEmail: data.email,
+      customerFirstName: data.firstName,
+      customerLastName: data.lastName,
+      customerPhone: "0"+ data.wallet,
+      merchantPublicKey: SPARCO_PUB_KEY,
+      transactionName: data.reference,
+      transactionReference: uuidv4(),       // Generate random reference
+      wallet: "0" + data.wallet,     
+      chargeMe: true,
+    };
+
   // Encode SparcoPay data using Sparco secrete key.
   const encoded_payload = jwt_encode(payload, SPARCO_SEC_KEY);
-
   const baseUrl = "https://live.sparco.io/gateway/api/v1/momo/debit";
 
   // Post data to Sparco API
